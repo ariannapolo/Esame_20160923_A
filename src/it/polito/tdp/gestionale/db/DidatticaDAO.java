@@ -17,7 +17,7 @@ public class DidatticaDAO {
 	/*
 	 * Ottengo tutti gli studenti iscritti al Corso
 	 */
-	public void getStudentiIscrittiAlCorso(Corso corso, Map<Integer, Studente> mapStudenti) {
+	public void setStudentiIscrittiAlCorso(Corso corso, Map<Integer, Studente> mapStudenti) {
 		final String sql = "SELECT studente.matricola FROM iscrizione, studente WHERE iscrizione.matricola=studente.matricola AND codins=?";
 
 		List<Studente> studentiIscrittiAlCorso = new ArrayList<Studente>();
@@ -32,14 +32,15 @@ public class DidatticaDAO {
 			while (rs.next()) {
 				int matricola = rs.getInt("matricola");
 				Studente studente = mapStudenti.get(matricola);
+				//ottengo l'oggeto studente che ho già, così non ne creo uno nuovo
 				if (studente != null) {
 					studentiIscrittiAlCorso.add(studente);
 				} else {
-					System.out.println("ERRORE! Lo studente non Ã¨ presente!");
+					System.out.println("ERRORE! Lo studente non e' presente!");
 				}
 			}
 
-			corso.setStudenti(studentiIscrittiAlCorso);
+			corso.setStudenti(studentiIscrittiAlCorso); //lista di puntatori relativi agli studenti
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
